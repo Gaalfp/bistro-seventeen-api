@@ -1,6 +1,7 @@
 INSERT INTO app.usuario (
     nome,
     email,
+    endereco
     login,
     cpf,
     senha_hash,
@@ -12,6 +13,7 @@ INSERT INTO app.usuario (
 SELECT
     'Administrador Master',
     'admin@sistema.com',
+    'Rua do Admin, 123',
     'admin.master',
     '00000000001',
     '$2a$10$nHxyaINXlotBVrfJtWA72ezQW2Zt7EGQToopoQca/hy4A4imKvUtC',
