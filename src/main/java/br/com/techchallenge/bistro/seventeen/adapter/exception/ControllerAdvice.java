@@ -16,4 +16,12 @@ public class ControllerAdvice {
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
     }
+
+    @ExceptionHandler(EntidadeNaoEncontradaException.class)
+    public ProblemDetail handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problemDetail.setTitle("Entidade não encotrada");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
 }

@@ -21,4 +21,10 @@ public class UsuarioAdapterRepository implements UsuarioRepositoryOutputPort, Co
         return usuarioRepository.findByLogin(login)
                 .map(mapper::toUsuario);
     }
+
+    @Override
+    public Optional<Usuario> buscarPorNome(String nome) {
+        return usuarioRepository.findByNome(nome)
+                .map(mapper::toUsuario);
+    }
 }
