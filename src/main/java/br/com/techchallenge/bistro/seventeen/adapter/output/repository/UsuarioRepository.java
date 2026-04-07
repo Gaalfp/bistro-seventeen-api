@@ -4,6 +4,10 @@ import br.com.techchallenge.bistro.seventeen.adapter.output.entity.UsuarioEntity
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Repository
-public interface UsariorRepository extends JpaRepository<UsuarioEntity, Long> {
+public interface UsuarioRepository extends JpaRepository<UsuarioEntity, UUID> {
+    Optional<UsuarioEntity> findByLogin(String login);
 }
