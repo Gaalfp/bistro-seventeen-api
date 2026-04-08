@@ -9,10 +9,12 @@ public class Usuario {
     private String nome;
     private String email;
     private String login;
+    private String cpf;
     private String senhaHash;
     private String endereco;
     private TipoUsuario tipo;
     private LocalDateTime dataUltimaAlteracao;
+    private String status;
 
     public Usuario() {
     }
@@ -79,5 +81,21 @@ public class Usuario {
 
     public void setDataUltimaAlteracao(LocalDateTime dataUltimaAlteracao) {
         this.dataUltimaAlteracao = dataUltimaAlteracao;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

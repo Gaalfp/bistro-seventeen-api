@@ -1,6 +1,6 @@
 package br.com.techchallenge.bistro.seventeen.adapter.exception;
 
-import br.com.techchallenge.bistro.seventeen.core.exception.EmailOuLoginJaExistemException;
+import br.com.techchallenge.bistro.seventeen.core.exception.RecursoJaExisteException;
 import br.com.techchallenge.bistro.seventeen.core.exception.UsuarioNaoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -25,6 +25,7 @@ public class ControllerAdvice {
             HttpStatus.BAD_REQUEST,
             "Falha na validação dos dados fornecidos"
         );
+        problemDetail.setType(java.net.URI.create("/problems/validacao-dados"));
         problemDetail.setTitle("Erro de Validação");
         problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("errors", errors);
@@ -37,17 +38,19 @@ public class ControllerAdvice {
             HttpStatus.NOT_FOUND,
             ex.getMessage()
         );
+        problemDetail.setType(java.net.URI.create("/problems/usuario-nao-encontrado"));
         problemDetail.setTitle("Usuário não encontrado");
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
     }
 
-    @ExceptionHandler(EmailOuLoginJaExistemException.class)
-    public ProblemDetail handleEmailOuLoginJaExistem(EmailOuLoginJaExistemException ex) {
+    @ExceptionHandler(RecursoJaExisteException.class)
+    public ProblemDetail handleEmailOuLoginJaExistem(RecursoJaExisteException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
             HttpStatus.CONFLICT,
             ex.getMessage()
         );
+        problemDetail.setType(java.net.URI.create("/problems/recurso-duplicado"));
         problemDetail.setTitle("Recurso duplicado");
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
@@ -59,6 +62,7 @@ public class ControllerAdvice {
             HttpStatus.INTERNAL_SERVER_ERROR,
             ex.getMessage()
         );
+        problemDetail.setType(java.net.URI.create("/problems/erro-interno"));
         problemDetail.setTitle("Erro no servidor");
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;

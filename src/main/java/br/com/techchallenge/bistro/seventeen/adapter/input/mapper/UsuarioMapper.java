@@ -12,8 +12,10 @@ import java.util.UUID;
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
+    @Mapping(target = "tipo", source = "tipoUsuario")
     Usuario toUsuario(UsuarioEntity entity);
 
+    @Mapping(target = "cpf", ignore = true)
     @Mapping(target = "id", source = "id")
     @Mapping(target = "senhaHash", ignore = true)
     @Mapping(target = "dataUltimaAlteracao", ignore = true)

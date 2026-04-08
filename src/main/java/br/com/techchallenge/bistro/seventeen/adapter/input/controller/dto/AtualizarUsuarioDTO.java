@@ -22,5 +22,8 @@ public record AtualizarUsuarioDTO(
         String endereco,
 
         @NotNull(message = "O tipo de usuário é obrigatório")
-        TipoUsuario tipo
+        TipoUsuario tipo,
+
+        @NotBlank(message = "O status de usuário é obrigatório")
+        String status
 ) { }

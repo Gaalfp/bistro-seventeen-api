@@ -25,6 +25,12 @@ public class UsuarioAdapterRepository implements UsuarioRepositoryOutputPort, Co
     }
 
     @Override
+    public Optional<Usuario> buscarPorCpf(String cpf) {
+        return usuarioRepository.findByCpf(cpf)
+                .map(mapper::toUsuario);
+    }
+
+    @Override
     public Optional<Usuario> buscarPorId(UUID id) {
         return usuarioRepository.findById(id)
                 .map(mapper::toUsuario);

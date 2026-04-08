@@ -1,6 +1,6 @@
 package br.com.techchallenge.bistro.seventeen.core.usecase;
 
-import br.com.techchallenge.bistro.seventeen.core.exception.EmailOuLoginJaExistemException;
+import br.com.techchallenge.bistro.seventeen.core.exception.RecursoJaExisteException;
 import br.com.techchallenge.bistro.seventeen.core.exception.UsuarioNaoEncontradoException;
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
 import br.com.techchallenge.bistro.seventeen.port.input.AtualizarUsuarioInputPort;
@@ -16,7 +16,7 @@ public class AtualizarUsuarioUseCase implements AtualizarUsuarioInputPort {
 
     @Override
     public Usuario atualizarUsuario(Usuario usuario) {
-        var usuarioExistente = usuarioRepositoryOutputPort.buscarPorId(usuario.getId())
+         Usuario usuarioExistente = usuarioRepositoryOutputPort.buscarPorId(usuario.getId())
                 .orElseThrow(() -> new UsuarioNaoEncontradoException(
                         "Usuário com ID " + usuario.getId() + " não encontrado"
                 ));
@@ -24,16 +24,18 @@ public class AtualizarUsuarioUseCase implements AtualizarUsuarioInputPort {
         if (!usuarioExistente.getEmail().equals(usuario.getEmail())) {
             usuarioRepositoryOutputPort.buscarPorEmail(usuario.getEmail())
                     .ifPresent(u -> {
-                        throw new EmailOuLoginJaExistemException("Email já cadastrado no sistema");
+                        throw new RecursoJaExisteException("Email já cadastrado no sistema");
                     });
         }
 
         if (!usuarioExistente.getLogin().equals(usuario.getLogin())) {
             usuarioRepositoryOutputPort.buscarPorLogin(usuario.getLogin())
                     .ifPresent(u -> {
-                        throw new EmailOuLoginJaExistemException("Login já cadastrado no sistema");
+                        throw new RecursoJaExisteException("Login já cadastrado no sistema");
                     });
         }
+
+        usuario.setCpf(usuarioExistente.getCpf());
         usuario.setSenhaHash(usuarioExistente.getSenhaHash());
         return usuarioRepositoryOutputPort.salvar(usuario);
     }
