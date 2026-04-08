@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -23,8 +24,18 @@ public class UsuarioAdapterRepository implements UsuarioRepositoryOutputPort, Co
     }
 
     @Override
+    public Optional<Usuario> buscarPorId(UUID id) {
+        return usuarioRepository.findById(id).map(mapper::toUsuario);
+    }
+
+    @Override
     public Optional<Usuario> buscarPorNome(String nome) {
         return usuarioRepository.findByNome(nome)
                 .map(mapper::toUsuario);
+    }
+
+    @Override
+    public void salvar(Usuario usuario) {
+        usuarioRepository.save(mapper.toEntity(usuario));
     }
 }
