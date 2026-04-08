@@ -24,4 +24,12 @@ public class ControllerAdvice {
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
     }
+
+    @ExceptionHandler(SenhaAtualIncorretaException.class)
+    public ProblemDetail handleSenhaAtualIncorretaException(SenhaAtualIncorretaException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problemDetail.setTitle("Senha atual incorreta");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
 }

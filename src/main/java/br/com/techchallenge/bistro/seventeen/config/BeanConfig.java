@@ -2,18 +2,27 @@ package br.com.techchallenge.bistro.seventeen.config;
 
 import br.com.techchallenge.bistro.seventeen.core.usecase.BuscarUsuarioUseCase;
 import br.com.techchallenge.bistro.seventeen.core.usecase.ConsultarUsuarioUseCase;
+import br.com.techchallenge.bistro.seventeen.core.usecase.TrocarSenhaUseCase;
 import br.com.techchallenge.bistro.seventeen.core.usecase.ValidarLoginUseCase;
 import br.com.techchallenge.bistro.seventeen.port.input.BuscarUsuarioInputPort;
 import br.com.techchallenge.bistro.seventeen.port.input.ConsultarUsuarioInputPort;
+import br.com.techchallenge.bistro.seventeen.port.input.TrocarSenhaInputPort;
 import br.com.techchallenge.bistro.seventeen.port.input.ValidarLoginInputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.ConsultarUsuarioPorLoginOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.PasswordEncoderOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class BeanConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public ValidarLoginInputPort validarLoginInputPort(
@@ -30,5 +39,10 @@ public class BeanConfig {
     @Bean
     public BuscarUsuarioInputPort buscarUsuarioUseCase(UsuarioRepositoryOutputPort repository) {
         return new BuscarUsuarioUseCase(repository);
+    }
+
+    @Bean
+    public TrocarSenhaInputPort trocarSenhaUseCase(UsuarioRepositoryOutputPort repository, PasswordEncoder passwordEncoder) {
+        return new TrocarSenhaUseCase(repository, passwordEncoder);
     }
 }
