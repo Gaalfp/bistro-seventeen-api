@@ -1,15 +1,7 @@
 package br.com.techchallenge.bistro.seventeen.config;
 
-import br.com.techchallenge.bistro.seventeen.core.usecase.BuscarUsuarioUseCase;
-import br.com.techchallenge.bistro.seventeen.core.usecase.AtualizarUsuarioUseCase;
-import br.com.techchallenge.bistro.seventeen.core.usecase.ConsultarUsuarioUseCase;
-import br.com.techchallenge.bistro.seventeen.core.usecase.TrocarSenhaUseCase;
-import br.com.techchallenge.bistro.seventeen.core.usecase.ValidarLoginUseCase;
-import br.com.techchallenge.bistro.seventeen.port.input.BuscarUsuarioInputPort;
-import br.com.techchallenge.bistro.seventeen.port.input.AtualizarUsuarioInputPort;
-import br.com.techchallenge.bistro.seventeen.port.input.ConsultarUsuarioInputPort;
-import br.com.techchallenge.bistro.seventeen.port.input.TrocarSenhaInputPort;
-import br.com.techchallenge.bistro.seventeen.port.input.ValidarLoginInputPort;
+import br.com.techchallenge.bistro.seventeen.core.usecase.*;
+import br.com.techchallenge.bistro.seventeen.port.input.*;
 import br.com.techchallenge.bistro.seventeen.port.output.PasswordEncoderOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
 import org.springframework.context.annotation.Bean;
