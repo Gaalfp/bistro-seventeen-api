@@ -7,6 +7,8 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,4 +85,15 @@ public class ControllerAdvice {
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;
     }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ProblemDetail handleNoHandlerFoundException(NoHandlerFoundException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "Recurso não encontrado");
+        problemDetail.setType(java.net.URI.create("/problems/resource-not-found"));
+        problemDetail.setTitle("Resource Not Found");
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("path", ex.getRequestURL());
+        return problemDetail;
+    }
+
 }
