@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS app.usuario (
     cpf CHAR(11) NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
     tipo_usuario VARCHAR(30) NOT NULL,
-    status VARCHAR(30) NOT NULL,
     data_ultima_alteracao TIMESTAMP NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT TRUE
     );

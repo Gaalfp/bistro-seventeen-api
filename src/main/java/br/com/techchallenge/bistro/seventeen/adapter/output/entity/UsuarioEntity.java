@@ -38,9 +38,6 @@ public class UsuarioEntity {
     @Column(name = "tipo_usuario", nullable = false, length = 30)
     private String tipoUsuario;
 
-    @Column(nullable = false, length = 30)
-    private String status;
-
     @Column(name = "data_ultima_alteracao", nullable = false)
     private LocalDateTime dataUltimaAlteracao;
 

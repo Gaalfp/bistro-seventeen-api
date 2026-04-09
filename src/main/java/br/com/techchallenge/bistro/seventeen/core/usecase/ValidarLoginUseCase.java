@@ -1,5 +1,6 @@
 package br.com.techchallenge.bistro.seventeen.core.usecase;
 
+import br.com.techchallenge.bistro.seventeen.adapter.exception.CredenciaisInvalidasException;
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
 import br.com.techchallenge.bistro.seventeen.port.input.ValidarLoginInputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.PasswordEncoderOutputPort;
@@ -15,14 +16,17 @@ public class ValidarLoginUseCase implements ValidarLoginInputPort {
         this.passwordEncoderPort = passwordEncoderPort;
     }
 
-
     @Override
     public String executar(String login, String senhaEmTextoPlano) {
         Usuario usuario = usuarioRepositoryOutputPort.buscarPorLogin(login)
-                .orElseThrow(() -> new RuntimeException("Credenciais inválidas"));
+                .orElseThrow(() -> new CredenciaisInvalidasException("Credenciais inválidas"));
+
+        if (!usuario.isAtivo()) {
+            throw new CredenciaisInvalidasException("Credenciais inválidas");
+        }
 
         if (!passwordEncoderPort.matches(senhaEmTextoPlano, usuario.getSenhaHash())) {
-            throw new RuntimeException("Credenciais inválidas");
+            throw new CredenciaisInvalidasException("Credenciais inválidas");
         }
 
         return "Login realizado com sucesso!";
