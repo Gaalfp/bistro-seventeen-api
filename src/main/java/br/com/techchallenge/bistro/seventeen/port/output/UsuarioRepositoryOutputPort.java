@@ -6,9 +6,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UsuarioRepositoryOutputPort {
+
     Optional<Usuario> buscarPorId(UUID id);
 
-    Optional<Usuario> buscarPorNome(String nome);
+    Usuario salvar(Usuario usuario);
 
-    void salvar(Usuario usuario);
+    Optional<Usuario> buscarPorEmail(String email);
+
+    Optional<Usuario> buscarPorNome(String email);
+
+    Optional<Usuario> buscarPorLogin(String login);
+
 }

@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS app.usuario (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nome VARCHAR(150) NOT NULL,
     email VARCHAR(150) NOT NULL,
+    endereco VARCHAR(150) NOT NULL,
     login VARCHAR(80) NOT NULL,
     cpf CHAR(11) NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
