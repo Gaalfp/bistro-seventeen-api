@@ -11,12 +11,10 @@ public class Usuario {
     private String login;
     private String cpf;
     private String senhaHash;
-    private String tipoUsuario;
     private String status;
     private String endereco;
     private TipoUsuario tipo;
     private LocalDateTime dataUltimaAlteracao;
-    private String status;
 
     public Usuario() {
     }

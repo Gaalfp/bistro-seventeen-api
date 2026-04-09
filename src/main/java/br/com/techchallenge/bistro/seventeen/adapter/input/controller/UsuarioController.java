@@ -1,9 +1,14 @@
 package br.com.techchallenge.bistro.seventeen.adapter.input.controller;
 
+import br.com.techchallenge.bistro.seventeen.adapter.input.controller.dto.AtualizarUsuarioDTO;
+import br.com.techchallenge.bistro.seventeen.adapter.input.controller.dto.TrocarSenhaRequestDTO;
 import br.com.techchallenge.bistro.seventeen.adapter.input.controller.dto.UsuarioResponseDTO;
 import br.com.techchallenge.bistro.seventeen.adapter.input.mapper.UsuarioMapper;
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
 import br.com.techchallenge.bistro.seventeen.port.input.AtualizarUsuarioInputPort;
+import br.com.techchallenge.bistro.seventeen.port.input.BuscarUsuarioInputPort;
+import br.com.techchallenge.bistro.seventeen.port.input.TrocarSenhaInputPort;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +25,13 @@ public class UsuarioController {
     private final BuscarUsuarioInputPort buscarUsuarioInputPort;
     private final TrocarSenhaInputPort trocarSenhaInputPort;
     private final UsuarioMapper mapper;
+
+    public UsuarioController(AtualizarUsuarioInputPort atualizarUsuarioInputPort, BuscarUsuarioInputPort buscarUsuarioInputPort, TrocarSenhaInputPort trocarSenhaInputPort, UsuarioMapper mapper) {
+        this.atualizarUsuarioInputPort = atualizarUsuarioInputPort;
+        this.buscarUsuarioInputPort = buscarUsuarioInputPort;
+        this.trocarSenhaInputPort = trocarSenhaInputPort;
+        this.mapper = mapper;
+    }
 
 
     @PutMapping("/{id}")

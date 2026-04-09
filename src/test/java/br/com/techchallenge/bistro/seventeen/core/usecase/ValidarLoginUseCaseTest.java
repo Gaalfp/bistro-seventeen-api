@@ -1,8 +1,8 @@
 package br.com.techchallenge.bistro.seventeen.core.usecase;
 
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
-import br.com.techchallenge.bistro.seventeen.port.output.ConsultarUsuarioPorLoginOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.PasswordEncoderOutputPort;
+import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 class ValidarLoginUseCaseTest {
 
     @Mock
-    private ConsultarUsuarioPorLoginOutputPort consultarUsuarioPort;
+    private UsuarioRepositoryOutputPort consultarUsuarioPort;
 
     @Mock
     private PasswordEncoderOutputPort passwordEncoderPort;
@@ -31,7 +31,6 @@ class ValidarLoginUseCaseTest {
     @Test
     @DisplayName("Deve retornar mensagem de sucesso quando login e senha estiverem corretos")
     void deveLogarComSucesso() {
-        // Arrange
         var usuario = new Usuario();
         usuario.setLogin("admin.master");
         usuario.setSenhaHash("hash_bcrypted");
@@ -41,10 +40,8 @@ class ValidarLoginUseCaseTest {
         when(passwordEncoderPort.matches("senha123", "hash_bcrypted"))
                 .thenReturn(true);
 
-        // Act
         String resultado = useCase.executar("admin.master", "senha123");
 
-        // Assert
         assertThat(resultado).isEqualTo("Login realizado com sucesso!");
     }
 

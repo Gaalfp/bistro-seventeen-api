@@ -13,7 +13,8 @@ public interface UsuarioRepositoryOutputPort {
 
     Optional<Usuario> buscarPorEmail(String email);
 
+    Optional<Usuario> buscarPorNome(String email);
+
     Optional<Usuario> buscarPorLogin(String login);
 
-    Optional<Usuario> buscarPorCpf(String cpf);
 }

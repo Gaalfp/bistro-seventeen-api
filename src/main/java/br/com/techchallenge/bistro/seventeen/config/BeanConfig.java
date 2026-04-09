@@ -10,7 +10,6 @@ import br.com.techchallenge.bistro.seventeen.port.input.AtualizarUsuarioInputPor
 import br.com.techchallenge.bistro.seventeen.port.input.ConsultarUsuarioInputPort;
 import br.com.techchallenge.bistro.seventeen.port.input.TrocarSenhaInputPort;
 import br.com.techchallenge.bistro.seventeen.port.input.ValidarLoginInputPort;
-import br.com.techchallenge.bistro.seventeen.port.output.ConsultarUsuarioPorLoginOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.PasswordEncoderOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
 import org.springframework.context.annotation.Bean;
@@ -28,9 +27,9 @@ public class BeanConfig {
 
     @Bean
     public ValidarLoginInputPort validarLoginInputPort(
-            ConsultarUsuarioPorLoginOutputPort consultarUsuarioPort,
+            UsuarioRepositoryOutputPort usuarioRepositoryOutputPort,
             PasswordEncoderOutputPort passwordEncoderPort) {
-        return new ValidarLoginUseCase(consultarUsuarioPort, passwordEncoderPort);
+        return new ValidarLoginUseCase(usuarioRepositoryOutputPort, passwordEncoderPort);
     }
 
     @Bean

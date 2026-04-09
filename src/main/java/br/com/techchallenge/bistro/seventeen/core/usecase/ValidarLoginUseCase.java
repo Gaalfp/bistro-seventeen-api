@@ -2,23 +2,23 @@ package br.com.techchallenge.bistro.seventeen.core.usecase;
 
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
 import br.com.techchallenge.bistro.seventeen.port.input.ValidarLoginInputPort;
-import br.com.techchallenge.bistro.seventeen.port.output.ConsultarUsuarioPorLoginOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.PasswordEncoderOutputPort;
+import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
 
 public class ValidarLoginUseCase implements ValidarLoginInputPort {
 
-    private final ConsultarUsuarioPorLoginOutputPort consultarUsuarioPort;
+    private final UsuarioRepositoryOutputPort usuarioRepositoryOutputPort;
     private final PasswordEncoderOutputPort passwordEncoderPort;
 
-    public ValidarLoginUseCase(ConsultarUsuarioPorLoginOutputPort consultarUsuarioPort,
-                               PasswordEncoderOutputPort passwordEncoderPort) {
-        this.consultarUsuarioPort = consultarUsuarioPort;
+    public ValidarLoginUseCase(UsuarioRepositoryOutputPort usuarioRepositoryOutputPort, PasswordEncoderOutputPort passwordEncoderPort) {
+        this.usuarioRepositoryOutputPort = usuarioRepositoryOutputPort;
         this.passwordEncoderPort = passwordEncoderPort;
     }
 
+
     @Override
     public String executar(String login, String senhaEmTextoPlano) {
-        Usuario usuario = consultarUsuarioPort.buscarPorLogin(login)
+        Usuario usuario = usuarioRepositoryOutputPort.buscarPorLogin(login)
                 .orElseThrow(() -> new RuntimeException("Credenciais inválidas"));
 
         if (!passwordEncoderPort.matches(senhaEmTextoPlano, usuario.getSenhaHash())) {
