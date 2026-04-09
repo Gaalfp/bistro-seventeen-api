@@ -1,5 +1,6 @@
 package br.com.techchallenge.bistro.seventeen.core.usecase;
 
+import br.com.techchallenge.bistro.seventeen.adapter.exception.CredenciaisInvalidasException;
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
 import br.com.techchallenge.bistro.seventeen.port.output.PasswordEncoderOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ValidarLoginUseCaseTest {
@@ -29,11 +30,12 @@ class ValidarLoginUseCaseTest {
     private ValidarLoginUseCase useCase;
 
     @Test
-    @DisplayName("Deve retornar mensagem de sucesso quando login e senha estiverem corretos")
+    @DisplayName("Deve retornar mensagem de sucesso quando login e senha estiverem corretos e usuário ativo")
     void deveLogarComSucesso() {
         var usuario = new Usuario();
         usuario.setLogin("admin.master");
         usuario.setSenhaHash("hash_bcrypted");
+        usuario.setAtivo(true);
 
         when(consultarUsuarioPort.buscarPorLogin("admin.master"))
                 .thenReturn(Optional.of(usuario));
@@ -46,9 +48,27 @@ class ValidarLoginUseCaseTest {
     }
 
     @Test
-    @DisplayName("Deve lancar excecao quando a senha estiver incorreta")
+    @DisplayName("Deve lançar CredenciaisInvalidasException quando o usuário for encontrado mas estiver inativo")
+    void deveFalharUsuarioInativo() {
+        var usuario = new Usuario();
+        usuario.setLogin("admin.master");
+        usuario.setAtivo(false);
+
+        when(consultarUsuarioPort.buscarPorLogin("admin.master"))
+                .thenReturn(Optional.of(usuario));
+
+        assertThatThrownBy(() -> useCase.executar("admin.master", "senha123"))
+                .isInstanceOf(CredenciaisInvalidasException.class)
+                .hasMessage("Credenciais inválidas");
+
+        verify(passwordEncoderPort, never()).matches(anyString(), anyString());
+    }
+
+    @Test
+    @DisplayName("Deve lançar CredenciaisInvalidasException quando a senha estiver incorreta")
     void deveFalharSenhaIncorreta() {
         var usuario = new Usuario();
+        usuario.setAtivo(true);
         usuario.setSenhaHash("hash_correto");
 
         when(consultarUsuarioPort.buscarPorLogin("admin.master"))
@@ -57,7 +77,18 @@ class ValidarLoginUseCaseTest {
                 .thenReturn(false);
 
         assertThatThrownBy(() -> useCase.executar("admin.master", "senha_errada"))
-                .isInstanceOf(RuntimeException.class)
+                .isInstanceOf(CredenciaisInvalidasException.class)
+                .hasMessage("Credenciais inválidas");
+    }
+
+    @Test
+    @DisplayName("Deve lançar CredenciaisInvalidasException quando o login não existir")
+    void deveFalharLoginInexistente() {
+        when(consultarUsuarioPort.buscarPorLogin("fantasma"))
+                .thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> useCase.executar("fantasma", "qualquer_senha"))
+                .isInstanceOf(CredenciaisInvalidasException.class)
                 .hasMessage("Credenciais inválidas");
     }
 }

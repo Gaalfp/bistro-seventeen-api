@@ -96,4 +96,15 @@ public class ControllerAdvice {
         return problemDetail;
     }
 
+    @ExceptionHandler(CredenciaisInvalidasException.class)
+    public ProblemDetail handleCredenciaisInvalidas(CredenciaisInvalidasException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.UNAUTHORIZED,
+                ex.getMessage()
+        );
+        problemDetail.setType(java.net.URI.create("/problems/credenciais-invalidas"));
+        problemDetail.setTitle("Não Autorizado");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
 }

@@ -43,4 +43,9 @@ public class BeanConfig {
     public TrocarSenhaInputPort trocarSenhaUseCase(UsuarioRepositoryOutputPort repository, PasswordEncoder passwordEncoder) {
         return new TrocarSenhaUseCase(repository, passwordEncoder);
     }
+
+    @Bean
+    public ExcluirUsuarioInputPort excluirUsuarioInputPort(UsuarioRepositoryOutputPort repository) {
+        return new ExcluirUsuarioUseCase(repository);
+    }
 }

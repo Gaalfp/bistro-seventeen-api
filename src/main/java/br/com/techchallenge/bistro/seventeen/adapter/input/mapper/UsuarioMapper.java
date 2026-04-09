@@ -12,7 +12,7 @@ import java.util.UUID;
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
-    @Mapping(target = "tipo", source = "tipoUsuario")
+    @Mapping(target = "tipoUsuario", source = "tipoUsuario")
     Usuario toUsuario(UsuarioEntity entity);
 
     @Mapping(target = "cpf", ignore = true)
@@ -21,7 +21,7 @@ public interface UsuarioMapper {
     @Mapping(target = "dataUltimaAlteracao", ignore = true)
     Usuario fromDtoToUsuario(UUID id, AtualizarUsuarioDTO dto);
 
-    @Mapping(target = "tipoUsuario", source = "tipo")
+    @Mapping(target = "tipoUsuario", source = "tipoUsuario")
     UsuarioEntity toEntity(Usuario usuario);
 
     UsuarioResponseDTO toResponseDto(Usuario usuario);
