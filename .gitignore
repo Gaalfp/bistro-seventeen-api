@@ -19,8 +19,22 @@ out/
 gen/
 
 ### Docker ###
-# Se você tiver algum volume local que gera dados, ignore-os aqui
 # docker/postgres/data/ 
 
 ### Help files ###
 .help.html
+
+
+### Sistema Operacional ###
+.DS_Store
+Thumbs.db
+
+### Logs da Aplicação ###
+*.log
+logs/
+
+### Arquivos de Variáveis de Ambiente e Senhas (Segurança) ###
+.env
+*.env
+application-local.yml
+application-secret.properties

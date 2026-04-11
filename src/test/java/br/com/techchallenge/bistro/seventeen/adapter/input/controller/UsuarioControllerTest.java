@@ -52,11 +52,17 @@ class UsuarioControllerTest {
     @DisplayName("Deve retornar 201 Created ao cadastrar usuário com dados válidos")
     void deveCadastrarUsuarioComSucesso() throws Exception {
         CadastrarUsuarioRequest request = new CadastrarUsuarioRequest(
-                "Carlos", "11122233344", "carlos@email.com", "carlos.cli",
+                "Carlos", "32051183082", "carlos@email.com", "carlos.cli",
                 "Senha123!", "Rua X", "CLIENTE"
         );
 
-        Usuario usuarioSimulado = Usuario.builder()
+        Usuario usuarioMapeado = Usuario.builder()
+                .nome(request.nome())
+                .login(request.login())
+                .email(request.email())
+                .build();
+
+        Usuario usuarioSalvo = Usuario.builder()
                 .id(UUID.randomUUID())
                 .nome(request.nome())
                 .login(request.login())
@@ -64,7 +70,8 @@ class UsuarioControllerTest {
                 .tipoUsuario(TipoUsuario.CLIENTE)
                 .build();
 
-        when(cadastrarUsuarioInputPort.cadastrar(any(Usuario.class))).thenReturn(usuarioSimulado);
+        when(mapper.fromCadastrarRequestToUsuario(any(CadastrarUsuarioRequest.class))).thenReturn(usuarioMapeado);
+        when(cadastrarUsuarioInputPort.cadastrar(any(Usuario.class))).thenReturn(usuarioSalvo);
 
         mockMvc.perform(post(BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -90,7 +97,7 @@ class UsuarioControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestInvalido)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.detail").exists()); // Verifica se o ProblemDetail do ControllerAdvice entrou em ação
+                .andExpect(jsonPath("$.detail").exists());
 
         verify(cadastrarUsuarioInputPort, never()).cadastrar(any());
     }
