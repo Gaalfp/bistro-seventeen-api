@@ -23,4 +23,42 @@ public class Usuario {
     private String endereco;
     private TipoUsuario tipo;
     private LocalDateTime dataUltimaAlteracao;
+    private Boolean ativo;
+
+    public Usuario(String nome, String email, String login, String senha, String endereco, TipoUsuario tipo) {
+        this.nome = nome;
+        this.email = email;
+        this.login = login;
+        this.senhaHash = senha;
+        this.endereco = endereco;
+        this.tipo = tipo;
+    }
+
+    public Usuario(String nome, String email, String login, String senha, String endereco, TipoUsuario tipo
+            , LocalDateTime dataUltimaAlteracao, String status, Boolean ativo) {
+        this.nome = nome;
+        this.email = email;
+        this.login = login;
+        this.senhaHash = senha;
+        this.endereco = endereco;
+        this.tipo = tipo;
+        this.dataUltimaAlteracao = dataUltimaAlteracao;
+        this.status = status;
+        this.ativo = ativo;
+    }
+
+    public Usuario(UUID id, String nome, String email, String login, String senha, String endereco, TipoUsuario tipo
+            , LocalDateTime dataUltimaAlteracao , String status, Boolean ativo) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.login = login;
+        this.senhaHash = senha;
+        this.endereco = endereco;
+        this.tipo = tipo;
+        this.dataUltimaAlteracao = dataUltimaAlteracao;
+        this.status = status;
+        this.ativo = ativo;
+    }
+
 }

@@ -1,7 +1,23 @@
 services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: bistro-seventeen-api:local
+    container_name: bistro-seventeen-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/tech_challenge
+      SPRING_DATASOURCE_USERNAME: fiap_user
+      SPRING_DATASOURCE_PASSWORD: "123456"
+
   postgres:
     image: postgres:16
-    container_name: techchallenge-postgres 
+    container_name: techchallenge-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: tech_challenge
@@ -11,7 +27,13 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docker/postgres/init:/docker-entrypoint-initdb.d
+      # Caminho relativo à pasta deste arquivo (docker/)
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fiap_user -d tech_challenge"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   postgres_data:

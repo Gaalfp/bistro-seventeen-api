@@ -1,6 +1,7 @@
 package br.com.techchallenge.bistro.seventeen.adapter.output.repository;
 
 import br.com.techchallenge.bistro.seventeen.adapter.input.mapper.UsuarioMapper;
+import br.com.techchallenge.bistro.seventeen.adapter.output.entity.UsuarioEntity;
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
 import br.com.techchallenge.bistro.seventeen.port.output.ConsultarUsuarioPorLoginOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
@@ -37,5 +38,56 @@ public class UsuarioAdapterRepository implements UsuarioRepositoryOutputPort, Co
     @Override
     public void salvar(Usuario usuario) {
         usuarioRepository.save(mapper.toEntity(usuario));
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return usuarioRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByLogin(String login) {
+        return usuarioRepository.existsByLogin(login);
+    }
+
+    @Override
+    public Usuario save(Usuario usuario) {
+        UsuarioEntity entity = toEntity(usuario);
+        UsuarioEntity persisted = usuarioRepository.save(entity);
+        return paraDomainWithoutSenha(persisted);
+    }
+
+    private static UsuarioEntity toEntity(Usuario usuario) {
+
+        UsuarioEntity entityReturn = new UsuarioEntity(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getLogin(),
+                null, //cpf full padrao
+                usuario.getSenhaHash(),
+                usuario.getTipo(),
+                usuario.getStatus(),
+                usuario.getDataUltimaAlteracao(),
+                usuario.getAtivo(),
+                usuario.getEndereco()
+        );
+
+        return entityReturn;
+    }
+
+    private static Usuario paraDomainWithoutSenha(UsuarioEntity entity) {
+        return new Usuario(
+                entity.getId(),
+                entity.getNome(),
+                entity.getEmail(),
+                entity.getLogin(),
+                null,
+                entity.getEndereco(),
+                entity.getTipoUsuario(),
+                entity.getDataUltimaAlteracao(),
+                entity.getStatus(),
+                entity.getAtivo()
+        );
     }
 }

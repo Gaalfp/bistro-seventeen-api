@@ -1,5 +1,6 @@
 package br.com.techchallenge.bistro.seventeen.adapter.output.entity;
 
+import br.com.techchallenge.bistro.seventeen.core.model.TipoUsuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,8 +33,9 @@ public class UsuarioEntity {
     @Column(name = "senha_hash", nullable = false)
     private String senhaHash;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_usuario", nullable = false, length = 30)
-    private String tipoUsuario;
+    private TipoUsuario tipoUsuario;
 
     @Column(nullable = false, length = 30)
     private String status;
@@ -43,4 +45,26 @@ public class UsuarioEntity {
 
     @Column(nullable = false)
     private Boolean ativo = true;
+
+    @Column(nullable = false, length = 500)
+    private String endereco;
+
+    public UsuarioEntity() {}
+
+    public UsuarioEntity(UUID id, String nome, String email, String login, String cpf, String senhaHash,
+                         TipoUsuario tipoUsuario, String status, LocalDateTime dataUltimaAlteracao, Boolean ativo, String endereco) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.login = login;
+        this.cpf = cpf;
+        this.senhaHash = senhaHash;
+        this.tipoUsuario = tipoUsuario;
+        this.status = status;
+        this.dataUltimaAlteracao = dataUltimaAlteracao;
+        this.ativo = ativo;
+        this.endereco = endereco;
+    }
+
+
 }

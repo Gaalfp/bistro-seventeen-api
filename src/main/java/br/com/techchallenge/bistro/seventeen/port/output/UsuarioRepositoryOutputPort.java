@@ -11,4 +11,12 @@ public interface UsuarioRepositoryOutputPort {
     Optional<Usuario> buscarPorNome(String nome);
 
     void salvar(Usuario usuario);
+
+
+    boolean existsByEmail(String email);
+
+    boolean existsByLogin(String login);
+
+    /*Criei este save para não quebrar o salvar void*/
+    Usuario save(Usuario usuario);
 }
