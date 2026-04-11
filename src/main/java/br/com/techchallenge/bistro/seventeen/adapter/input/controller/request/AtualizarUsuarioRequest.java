@@ -21,7 +21,7 @@ public record AtualizarUsuarioRequest(
         @NotBlank(message = "O endereço é obrigatório")
         String endereco,
 
-        @NotNull(message = "O tipo de usuário é obrigatório")
-        TipoUsuario tipo
+        @NotNull(message = "O tipoUsuario de usuário é obrigatório")
+        TipoUsuario tipoUsuario
 
 ) { }

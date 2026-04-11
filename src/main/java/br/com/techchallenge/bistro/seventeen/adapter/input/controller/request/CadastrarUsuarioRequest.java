@@ -30,6 +30,5 @@ public record CadastrarUsuarioRequest(
         @NotBlank(message = "Role é obrigatória.")
         @Pattern(regexp = "DONO_RESTAURANTE|CLIENTE", message = "Role deve ser DONO_RESTAURANTE ou CLIENTE.")
         String role
-
 ) {
 }
