@@ -1,12 +1,15 @@
 package br.com.techchallenge.bistro.seventeen.config;
 
 import br.com.techchallenge.bistro.seventeen.core.usecase.CadastrarUsuarioUseCase;
-import br.com.techchallenge.bistro.seventeen.core.usecase.ConsultarUsuarioUseCase;
+import br.com.techchallenge.bistro.seventeen.core.usecase.*;
 import br.com.techchallenge.bistro.seventeen.port.input.CadastrarUsuarioInputPort;
-import br.com.techchallenge.bistro.seventeen.port.input.ConsultarUsuarioInputPort;
+import br.com.techchallenge.bistro.seventeen.port.input.*;
+import br.com.techchallenge.bistro.seventeen.port.output.PasswordEncoderOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,8 +22,35 @@ public class BeanConfig {
     }
 
     @Bean
-    public ConsultarUsuarioInputPort consultarUsuarioInputPort(UsuarioRepositoryOutputPort  usuarioRepositoryOutputPort) {
+    public ValidarLoginInputPort validarLoginInputPort(
+            UsuarioRepositoryOutputPort usuarioRepositoryOutputPort,
+            PasswordEncoderOutputPort passwordEncoderPort) {
+        return new ValidarLoginUseCase(usuarioRepositoryOutputPort, passwordEncoderPort);
+    }
+
+    @Bean
+    public ConsultarUsuarioInputPort consultarUsuarioInputPort(UsuarioRepositoryOutputPort usuarioRepositoryOutputPort) {
         return new ConsultarUsuarioUseCase(usuarioRepositoryOutputPort);
+    }
+
+    @Bean
+    public AtualizarUsuarioInputPort atualizarUsuarioInputPort(UsuarioRepositoryOutputPort usuarioRepositoryOutputPort) {
+        return new AtualizarUsuarioUseCase(usuarioRepositoryOutputPort);
+    }
+
+    @Bean
+    public BuscarUsuarioInputPort buscarUsuarioUseCase(UsuarioRepositoryOutputPort repository) {
+        return new BuscarUsuarioUseCase(repository);
+    }
+
+    @Bean
+    public TrocarSenhaInputPort trocarSenhaUseCase(UsuarioRepositoryOutputPort repository, PasswordEncoder passwordEncoder) {
+        return new TrocarSenhaUseCase(repository, passwordEncoder);
+    }
+
+    @Bean
+    public ExcluirUsuarioInputPort excluirUsuarioInputPort(UsuarioRepositoryOutputPort repository) {
+        return new ExcluirUsuarioUseCase(repository);
     }
 
     @Bean

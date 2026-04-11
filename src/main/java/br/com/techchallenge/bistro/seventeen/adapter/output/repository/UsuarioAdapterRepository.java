@@ -1,67 +1,51 @@
 package br.com.techchallenge.bistro.seventeen.adapter.output.repository;
 
-import br.com.techchallenge.bistro.seventeen.adapter.output.entity.UsuarioEntity;
+import br.com.techchallenge.bistro.seventeen.adapter.input.mapper.UsuarioMapper;
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
 import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class UsuarioAdapterRepository implements UsuarioRepositoryOutputPort {
 
-    private final UsariorRepository usariorRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final UsuarioMapper mapper;
 
     @Override
-    public boolean existsByEmail(String email) {
-        return usariorRepository.existsByEmail(email);
-    }
-
-    @Override
-    public boolean existsByLogin(String login) {
-        return usariorRepository.existsByLogin(login);
+    public Optional<Usuario> buscarPorLogin(String login) {
+        return usuarioRepository.findByLogin(login)
+                .map(mapper::toUsuario);
     }
 
     @Override
-    public Usuario save(Usuario usuario) {
-        UsuarioEntity entity = toEntity(usuario);
-        UsuarioEntity persisted = usariorRepository.save(entity);
-        return paraDomainWithoutSenha(persisted);
+    public Optional<Usuario> buscarPorNome(String nome) {
+        return usuarioRepository.findByNome(nome)
+                .map(mapper::toUsuario);
     }
 
-    private static UsuarioEntity toEntity(Usuario usuario) {
-
-        UsuarioEntity entityReturn = new UsuarioEntity(
-            usuario.getId(),
-            usuario.getNome(),
-            usuario.getEmail(),
-            usuario.getLogin(),
-            null, //cpf full padrao
-            usuario.getSenha(),
-            usuario.getTipo(),
-            usuario.getStatus(),
-            usuario.getDataUltimaAlteracao(),
-            usuario.getAtivo(),
-            usuario.getEndereco()
-        );
-
-        return entityReturn;
+    @Override
+    public Optional<Usuario> buscarPorId(UUID id) {
+        return usuarioRepository.findById(id)
+                .map(mapper::toUsuario);
     }
 
-    private static Usuario paraDomainWithoutSenha(UsuarioEntity entity) {
-        return new Usuario(
-                entity.getId(),
-                entity.getNome(),
-                entity.getEmail(),
-                entity.getLogin(),
-                null,
-                entity.getEndereco(),
-                entity.getTipoUsuario(),
-                entity.getDataUltimaAlteracao(),
-                entity.getStatus(),
-                entity.getAtivo()
-        );
+    @Override
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email)
+                .map(mapper::toUsuario);
     }
 
-
+    @Override
+    public Usuario salvar(Usuario usuario) {
+        usuario.setDataUltimaAlteracao(LocalDateTime.now());
+        var entity = mapper.toEntity(usuario);
+        var usuarioSalvo = usuarioRepository.save(entity);
+        return mapper.toUsuario(usuarioSalvo);
+    }
 }
