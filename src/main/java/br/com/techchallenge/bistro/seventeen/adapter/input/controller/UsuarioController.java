@@ -6,7 +6,6 @@ import br.com.techchallenge.bistro.seventeen.adapter.input.controller.request.Ca
 import br.com.techchallenge.bistro.seventeen.adapter.input.controller.response.CadastrarUsuarioResponse;
 import br.com.techchallenge.bistro.seventeen.adapter.input.controller.response.UsuarioResponse;
 import br.com.techchallenge.bistro.seventeen.adapter.input.mapper.UsuarioMapper;
-import br.com.techchallenge.bistro.seventeen.core.model.TipoUsuario;
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
 import br.com.techchallenge.bistro.seventeen.port.input.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,21 +63,10 @@ public class UsuarioController {
     })
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CadastrarUsuarioResponse> cadastrar(@Valid @RequestBody CadastrarUsuarioRequest request) {
-
-        Usuario usuario = Usuario.builder()
-                .nome(request.nome())
-                .email(request.email())
-                .login(request.login())
-                .cpf(request.cpf())
-                .senhaHash(request.senha())
-                .endereco(request.endereco())
-                .tipoUsuario(TipoUsuario.valueOf(request.role()))
-                .build();
-
+        Usuario usuario = mapper.fromCadastrarRequestToUsuario(request);
         Usuario criado = cadastrarUsuarioInputPort.cadastrar(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(CadastrarUsuarioResponse.from(criado));
     }
-
 
     @Operation(summary = "Atualizar usuário", description = "Atualiza os dados cadastrais de um usuário existente.")
     @ApiResponses(value = {
@@ -108,7 +96,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
                     content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> excluirUsuario(@PathVariable UUID id) {
         excluirUsuarioInputPort.excluir(id);
         return ResponseEntity.noContent().build();
@@ -135,7 +123,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
                     content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PatchMapping(value = "/{id}/senha", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}/senha")
     public ResponseEntity<Void> trocarSenha(@PathVariable UUID id, @Valid @RequestBody TrocarSenhaRequest dto) {
         trocarSenhaInputPort.trocarSenha(id, dto);
         return ResponseEntity.noContent().build();
