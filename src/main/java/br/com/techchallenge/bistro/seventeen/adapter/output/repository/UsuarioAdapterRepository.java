@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,9 +25,19 @@ public class UsuarioAdapterRepository implements UsuarioRepositoryOutputPort {
     }
 
     @Override
-    public Optional<Usuario> buscarPorNome(String nome) {
-        return usuarioRepository.findByNome(nome)
-                .map(mapper::toUsuario);
+    public List<Usuario> buscarPorNome(String nome) {
+        return usuarioRepository.findByNomeContainingIgnoreCase(nome)
+                .stream()
+                .map(mapper::toUsuario)
+                .toList();
+    }
+
+    @Override
+    public List<Usuario> listarTodos() {
+        return usuarioRepository.findAll()
+                .stream()
+                .map(mapper::toUsuario)
+                .toList();
     }
 
     @Override

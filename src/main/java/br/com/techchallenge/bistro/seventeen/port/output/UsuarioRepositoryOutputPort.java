@@ -1,6 +1,7 @@
 package br.com.techchallenge.bistro.seventeen.port.output;
 
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,7 +13,9 @@ public interface UsuarioRepositoryOutputPort {
 
     Optional<Usuario> buscarPorEmail(String email);
 
-    Optional<Usuario> buscarPorNome(String nome);
-
     Optional<Usuario> buscarPorLogin(String login);
+
+    List<Usuario> buscarPorNome(String nome);
+
+    List<Usuario> listarTodos();
 }
