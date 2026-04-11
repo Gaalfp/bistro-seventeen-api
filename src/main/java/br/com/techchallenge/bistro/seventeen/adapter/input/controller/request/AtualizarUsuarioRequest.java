@@ -1,4 +1,4 @@
-package br.com.techchallenge.bistro.seventeen.adapter.input.controller.dto;
+package br.com.techchallenge.bistro.seventeen.adapter.input.controller.request;
 
 import br.com.techchallenge.bistro.seventeen.core.model.TipoUsuario;
 import jakarta.validation.constraints.Email;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 
-public record AtualizarUsuarioDTO(
+public record AtualizarUsuarioRequest(
 
         @NotBlank(message = "O nome é obrigatório")
         String nome,
@@ -22,8 +22,6 @@ public record AtualizarUsuarioDTO(
         String endereco,
 
         @NotNull(message = "O tipo de usuário é obrigatório")
-        TipoUsuario tipo,
+        TipoUsuario tipo
 
-        @NotBlank(message = "O status de usuário é obrigatório")
-        String status
 ) { }

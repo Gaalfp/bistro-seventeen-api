@@ -1,11 +1,15 @@
 package br.com.techchallenge.bistro.seventeen.config;
 
+import br.com.techchallenge.bistro.seventeen.core.usecase.CadastrarUsuarioUseCase;
 import br.com.techchallenge.bistro.seventeen.core.usecase.*;
+import br.com.techchallenge.bistro.seventeen.port.input.CadastrarUsuarioInputPort;
 import br.com.techchallenge.bistro.seventeen.port.input.*;
 import br.com.techchallenge.bistro.seventeen.port.output.PasswordEncoderOutputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -48,4 +52,11 @@ public class BeanConfig {
     public ExcluirUsuarioInputPort excluirUsuarioInputPort(UsuarioRepositoryOutputPort repository) {
         return new ExcluirUsuarioUseCase(repository);
     }
+
+    @Bean
+    public CadastrarUsuarioInputPort cadastrarUsuarioInputPort(UsuarioRepositoryOutputPort usuarioRepositoryOutputPort
+                                                            ,   PasswordEncoder passwordEncoder) {
+        return new CadastrarUsuarioUseCase(usuarioRepositoryOutputPort, passwordEncoder);
+    }
+
 }

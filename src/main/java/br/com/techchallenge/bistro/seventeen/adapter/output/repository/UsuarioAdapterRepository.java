@@ -36,16 +36,16 @@ public class UsuarioAdapterRepository implements UsuarioRepositoryOutputPort {
     }
 
     @Override
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email)
+                .map(mapper::toUsuario);
+    }
+
+    @Override
     public Usuario salvar(Usuario usuario) {
         usuario.setDataUltimaAlteracao(LocalDateTime.now());
         var entity = mapper.toEntity(usuario);
         var usuarioSalvo = usuarioRepository.save(entity);
         return mapper.toUsuario(usuarioSalvo);
-    }
-
-    @Override
-    public Optional<Usuario> buscarPorEmail(String email) {
-        return usuarioRepository.findByEmail(email)
-                .map(mapper::toUsuario);
     }
 }

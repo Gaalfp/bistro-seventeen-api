@@ -16,3 +16,7 @@ CREATE TABLE IF NOT EXISTS app.usuario (
 CREATE UNIQUE INDEX IF NOT EXISTS ux_app_usuario_email ON app.usuario (email);
 CREATE UNIQUE INDEX IF NOT EXISTS ux_app_usuario_login ON app.usuario (login);
 CREATE UNIQUE INDEX IF NOT EXISTS ux_app_usuario_cpf ON app.usuario (cpf);
+
+ALTER TABLE app.usuario ALTER COLUMN cpf TYPE VARCHAR(11);
+ALTER TABLE app.usuario ALTER COLUMN cpf DROP NOT NULL;
+ALTER TABLE app.usuario ADD COLUMN IF NOT EXISTS endereco VARCHAR(500);

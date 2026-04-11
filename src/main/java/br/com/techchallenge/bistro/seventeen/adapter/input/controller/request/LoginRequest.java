@@ -1,10 +1,10 @@
-package br.com.techchallenge.bistro.seventeen.adapter.input.controller.dto;
+package br.com.techchallenge.bistro.seventeen.adapter.input.controller.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
-@Schema(name = "LoginRequestDTO", description = "Objeto contendo as credenciais para autenticação no sistema")
-public record LoginRequestDTO(
+@Schema(name = "LoginRequest", description = "Objeto contendo as credenciais para autenticação no sistema")
+public record LoginRequest(
 
         @Schema(description = "Login (nome de usuário) cadastrado", example = "admin.master")
         @NotBlank(message = "O campo login é obrigatório.")

@@ -1,8 +1,8 @@
-package br.com.techchallenge.bistro.seventeen.adapter.input.controller.dto;
+package br.com.techchallenge.bistro.seventeen.adapter.input.controller.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record TrocarSenhaRequestDTO(
+public record TrocarSenhaRequest(
         @NotBlank(message = "O campo senhaAtual é obrigatório.")
         String senhaAtual,
 
