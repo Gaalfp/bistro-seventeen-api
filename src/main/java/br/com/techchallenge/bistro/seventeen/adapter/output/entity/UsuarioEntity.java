@@ -24,9 +24,6 @@ public class UsuarioEntity {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    @Column(nullable = false, unique = false, length = 150)
-    private String endereco;
-
     @Column(nullable = false, unique = true, length = 80)
     private String login;
 
@@ -52,7 +49,7 @@ public class UsuarioEntity {
     public UsuarioEntity() {}
 
     public UsuarioEntity(UUID id, String nome, String email, String login, String cpf, String senhaHash,
-                         TipoUsuario tipoUsuario, String status, LocalDateTime dataUltimaAlteracao, Boolean ativo, String endereco) {
+                         TipoUsuario tipoUsuario, LocalDateTime dataUltimaAlteracao, Boolean ativo, String endereco) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -60,11 +57,8 @@ public class UsuarioEntity {
         this.cpf = cpf;
         this.senhaHash = senhaHash;
         this.tipoUsuario = tipoUsuario;
-        this.status = status;
         this.dataUltimaAlteracao = dataUltimaAlteracao;
         this.ativo = ativo;
         this.endereco = endereco;
     }
-
-
 }
