@@ -1,4 +1,3 @@
-# Build da API no Docker (multi-stage). Uso: na raiz do projeto,
 # docker compose -f docker/docker-compose.yml up --build
 FROM maven:3.9.9-eclipse-temurin-21-alpine AS build
 WORKDIR /app

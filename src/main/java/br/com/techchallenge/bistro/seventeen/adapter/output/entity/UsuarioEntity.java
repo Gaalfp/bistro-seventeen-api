@@ -24,6 +24,9 @@ public class UsuarioEntity {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
+    @Column(nullable = false, unique = false, length = 150)
+    private String endereco;
+
     @Column(nullable = false, unique = true, length = 80)
     private String login;
 
@@ -36,9 +39,6 @@ public class UsuarioEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_usuario", nullable = false, length = 30)
     private TipoUsuario tipoUsuario;
-
-    @Column(nullable = false, length = 30)
-    private String status;
 
     @Column(name = "data_ultima_alteracao", nullable = false)
     private LocalDateTime dataUltimaAlteracao;

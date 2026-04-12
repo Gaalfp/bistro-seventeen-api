@@ -2,7 +2,7 @@ package br.com.techchallenge.bistro.seventeen.core.usecase;
 
 import br.com.techchallenge.bistro.seventeen.adapter.exception.EntidadeNaoEncontradaException;
 import br.com.techchallenge.bistro.seventeen.adapter.exception.SenhaAtualIncorretaException;
-import br.com.techchallenge.bistro.seventeen.adapter.input.controller.dto.TrocarSenhaRequestDTO;
+import br.com.techchallenge.bistro.seventeen.adapter.input.controller.request.TrocarSenhaRequest;
 import br.com.techchallenge.bistro.seventeen.core.model.Usuario;
 import br.com.techchallenge.bistro.seventeen.port.input.TrocarSenhaInputPort;
 import br.com.techchallenge.bistro.seventeen.port.output.UsuarioRepositoryOutputPort;
@@ -21,7 +21,7 @@ public class TrocarSenhaUseCase implements TrocarSenhaInputPort {
     }
 
     @Override
-    public void trocarSenha(UUID id, TrocarSenhaRequestDTO dto) {
+    public void trocarSenha(UUID id, TrocarSenhaRequest dto) {
         Usuario usuario = repository.buscarPorId(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Usuário com id: " + id + " não encotrado!"));
 

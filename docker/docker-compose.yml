@@ -27,7 +27,6 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      # Caminho relativo à pasta deste arquivo (docker/)
       - ./postgres/init:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U fiap_user -d tech_challenge"]
