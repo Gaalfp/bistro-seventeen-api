@@ -1,0 +1,374 @@
+{
+  "info": {
+    "_postman_id": "b7d978c4-1dda-4e9e-af2c-1c0303a3a095",
+    "name": "Bistrô Seventeen API - Tech Challenge",
+    "description": "Collection contendo os cenários de testes exigidos para a Fase 1 do Tech Challenge da pós-graduação em Arquitetura e Desenvolvimento Java (FIAP).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "3466333"
+  },
+  "item": [
+    {
+      "name": "1. Cadastro de Usuários",
+      "item": [
+        {
+          "name": "1.1 Cadastro Válido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"usuarioId\", jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João Oliveira\",\n  \"cpf\": \"68257325015\",\n  \"email\": \"joao.teste@bistro.com\",\n  \"login\": \"joao.oliveira\",\n  \"senha\": \"SenhaForte123\",\n  \"endereco\": \"Rua da Tecnologia, 123 - São Paulo\",\n  \"role\": \"DONO_RESTAURANTE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.2 Cadastro Inválido (E-mail/Login Duplicado)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João Clone\",\n  \"cpf\": \"98765432100\",\n  \"email\": \"joao.teste@bistro.com\",\n  \"login\": \"joao.oliveira\",\n  \"senha\": \"OutraSenha123\",\n  \"endereco\": \"Rua Falsa, 404\",\n  \"role\": \"CLIENTE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.3 Cadastro Inválido (Campos Faltando)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"\",\n  \"cpf\": \"\",\n  \"email\": \"email-invalido\",\n  \"login\": \"\",\n  \"senha\": \"\",\n  \"endereco\": \"\",\n  \"role\": \"ADMIN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Autenticação (Login)",
+      "item": [
+        {
+          "name": "2.1 Validação de Login com Sucesso",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login\": \"joao.oliveira\",\n  \"senha\": \"SenhaForte123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.2 Validação de Login com Erro (Senha Incorreta)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login\": \"joao.oliveira\",\n  \"senha\": \"SenhaErrada!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Busca de Usuários",
+      "item": [
+        {
+          "name": "3.1 Buscar por Nome",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios?nome=João",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios"
+              ],
+              "query": [
+                {
+                  "key": "nome",
+                  "value": "João"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "4. Atualização de Dados",
+      "item": [
+        {
+          "name": "4.1 Atualização com Sucesso",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João Oliveira Silva\",\n  \"email\": \"joao.novo@bistro.com\",\n  \"login\": \"joao.oliveira\",\n  \"endereco\": \"Avenida Paulista, 1000 - São Paulo\",\n  \"tipoUsuario\": \"DONO_RESTAURANTE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios/{{usuarioId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "{{usuarioId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.2 Atualização com Erro (Usuário Inexistente)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Fantasma\",\n  \"email\": \"fantasma@teste.com\",\n  \"login\": \"fantasma.login\",\n  \"endereco\": \"Lugar Nenhum\",\n  \"tipoUsuario\": \"CLIENTE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios/00000000-0000-0000-0000-000000000000",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "00000000-0000-0000-0000-000000000000"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "5. Troca de Senha",
+      "item": [
+        {
+          "name": "5.1 Trocar Senha com Sucesso",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"senhaAtual\": \"SenhaForte123\",\n  \"novaSenha\": \"NovaSenhaSegura456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios/{{usuarioId}}/senha",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "{{usuarioId}}",
+                "senha"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5.2 Trocar Senha com Erro (Senha Atual Incorreta)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"senhaAtual\": \"ChuteiASenha\",\n  \"novaSenha\": \"Hacker123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/usuarios/{{usuarioId}}/senha",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "usuarios",
+                "{{usuarioId}}",
+                "senha"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "usuarioId",
+      "value": ""
+    },
+    {
+      "value": ""
+    }
+  ]
+}
