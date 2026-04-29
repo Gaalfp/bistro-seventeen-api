@@ -13,5 +13,21 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/init:/docker-entrypoint-initdb.d
 
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: techchallenge-app
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      DB_URL: jdbc:postgresql://postgres:5432/tech_challenge
+      DB_USERNAME: fiap_user
+      DB_PASSWORD: 123456
+    restart: unless-stopped
+
 volumes:
   postgres_data:
